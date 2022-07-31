@@ -1,25 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import { Authcontext } from "./contexts/AuthProvider";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const { login, logout, user } = useContext(Authcontext);
+    return (
+        <>
+            <Router>
+                <nav className="navbar navbar-expand-sm navbar-light bg-light">
+                    <div className="container">
+                        <Link className="navbar-brand" to="/">
+                            Weather
+                        </Link>
+                        <button
+                            className="navbar-toggler d-lg-none"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapsibleNavId"
+                            aria-controls="collapsibleNavId"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div
+                            className="collapse navbar-collapse"
+                            id="collapsibleNavId"
+                        >
+                            <ul className="navbar-nav me-auto mt-2 mt-lg-0">
+                                <li className="nav-item active">
+                                    <Link className="nav-link" to="/">
+                                        Home{" "}
+                                        <span className="visually-hidden">
+                                            (current)
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="#">
+                                        Link
+                                    </Link>
+                                </li>
+                            </ul>
+                            <ul className="navbar-nav">
+                                {user.loggedIn ? (
+                                    <li className="nav-item">
+                                        <button onClick={logout}>Logout</button>
+                                    </li>
+                                ) : (
+                                    <li className="nav-item">
+                                        <button onClick={login}>Login</button>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </Router>
+        </>
+    );
 }
 
 export default App;
